@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS people(
   home_phone varchar(10),
   work_phone varchar(10),
   cell_phone varchar(10),
+  email_address text,
   member_id uuid,
   created timestamp without time zone default(now() at time zone 'utc')
 );
@@ -38,11 +39,28 @@ CREATE TABLE IF NOT EXISTS memberships(
   created timestamp without time zone default(now() at time zone 'utc')
 );
 ALTER SEQUENCE member_id_seq OWNED BY memberships.id;
-SELECT setval('member_id_seq', 1000);
+SELECT setval('member_id_seq', 10000);
 
 CREATE TABLE IF NOT EXISTS membership_holdings (
   member_id smallint not null references memberships(id),
   company_id uuid not null references companies(id)
+  created timestamp without time zone default(now() at time zone 'utc')
+);
+
+CREATE TABLE IF NOT EXISTS groups (
+  id uuid PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+  name text NOT NULL,
+  description text,
+  discontinued timestamp,
+  created timestamp without time zone default(now() at time zone 'utc')
+);
+
+CREATE TABLE IF NOT EXISTS group_membership (
+  group_id uuid not null references groups(id),
+  user_id uuid not null references people(id),
+  role text,
+  discontinued timestamp,
+  created timestamp without time zone default(now() at time zone 'utc')
 );
 
 INSERT INTO PEOPLE (name) VALUES ('Gian Biondi');
@@ -52,4 +70,6 @@ INSERT INTO COMPANIES (name, parent, poc) VALUES ('Child Co', (SELECT id from co
 INSERT INTO COMPANIES (name, parent, poc) VALUES ('Sibling Co', (SELECT id from companies where name='Umbrella Co'), (SELECT id from people where name='Gian Biondi'));
 INSERT INTO memberships default values;
 INSERT INTO membership_holdings (member_id, company_id) VALUES ((SELECT id from memberships limit 1), (SELECT id FROM companies WHERE name='Umbrella Co'))
+
+INSERT INTO 
 
