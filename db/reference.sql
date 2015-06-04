@@ -43,7 +43,8 @@ SELECT setval('member_id_seq', 10000);
 
 CREATE TABLE IF NOT EXISTS membership_holdings (
   member_id smallint not null references memberships(id),
-  company_id uuid not null references companies(id)
+  company_id uuid not null references companies(id),
+  duration daterange NOT NULL DEFAULT '[today, infinity)'::daterange,
   created timestamp without time zone default(now() at time zone 'utc')
 );
 
@@ -51,7 +52,7 @@ CREATE TABLE IF NOT EXISTS groups (
   id uuid PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
   name text NOT NULL,
   description text,
-  discontinued timestamp,
+  duration daterange NOT NULL DEFAULT '[today, infinity)'::daterange,
   created timestamp without time zone default(now() at time zone 'utc')
 );
 
@@ -59,7 +60,7 @@ CREATE TABLE IF NOT EXISTS group_membership (
   group_id uuid not null references groups(id),
   user_id uuid not null references people(id),
   role text,
-  discontinued timestamp,
+  duration daterange NOT NULL DEFAULT '[today, infinity)'::daterange,
   created timestamp without time zone default(now() at time zone 'utc')
 );
 
@@ -69,7 +70,7 @@ INSERT INTO COMPANIES (name, poc) VALUES ('Umbrella Co', (SELECT id from people 
 INSERT INTO COMPANIES (name, parent, poc) VALUES ('Child Co', (SELECT id from companies where name='Umbrella Co'), (SELECT id from people where name='Mike Biondi'));
 INSERT INTO COMPANIES (name, parent, poc) VALUES ('Sibling Co', (SELECT id from companies where name='Umbrella Co'), (SELECT id from people where name='Gian Biondi'));
 INSERT INTO memberships default values;
-INSERT INTO membership_holdings (member_id, company_id) VALUES ((SELECT id from memberships limit 1), (SELECT id FROM companies WHERE name='Umbrella Co'))
+INSERT INTO membership_holdings (member_id, company_id) VALUES ((SELECT id from memberships limit 1), (SELECT id FROM companies WHERE name='Umbrella Co'));
 
-INSERT INTO 
-
+INSERT INTO groups (name) VALUES ('BoD');
+INSERT INTO group_membership (group_id, user_id, role) VALUES ((SELECT id from groups where name='BoD' LIMIT 1),(SELECT id from people where name = 'Gian Biondi'), 'President');
