@@ -52,10 +52,28 @@ for line in fp.xreadlines():
     data['company_name'] = fields[4]
     people.append(data)
 
-
 with open('people.json', 'w') as outfile:
      print "Saving People to file..."
      json.dump(people, outfile, indent=4, sort_keys=False)
+
+fc = open('dcalists/NJ_BLDR_20141113.txt', 'r')
+next(fc)
+companies= []
+for line in fc.xreadlines():
+    data={}
+    fields = line.split('|')
+    data['company_name'] = fields[1]
+    data['address1'] = fields[2]
+    data['address2'] = fields[3]
+    data['city'] = fields[4]
+    data['state'] = fields[5]
+    data['zip'] = fields[6]
+    companies.append(data)
+
+with open('companies.json', 'w') as outfile:
+     print "Saving Companies to file..."
+     json.dump(companies, outfile, indent=4, sort_keys=False)
+
 #cols = ( 'object_id', 'field', 'transaction_type')
 #
 ##dbname = os.environ['PG_DBNAME']
