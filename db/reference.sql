@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS people(
   zip varchar(5),
   state varchar(2),
   country varchar(40),
-  company_id uuid[],
   home_phone varchar(10),
   work_phone varchar(10),
   cell_phone varchar(10),
@@ -31,10 +30,17 @@ CREATE TABLE IF NOT EXISTS companies (
   address1 text,
   address2 text,
   zip varchar(5),
+  city text,
   state varchar(2),
   country varchar(40),
   parent uuid references companies(id),
   poc uuid references people(id),
+  created timestamp without time zone default(now() at time zone 'utc')
+);
+
+CREATE TABLE IF NOT EXISTS pco_relationships (
+  people_id uuid PRIMARY KEY not null,
+  company_id uuid not null,
   created timestamp without time zone default(now() at time zone 'utc')
 );
 
