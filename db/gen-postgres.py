@@ -82,14 +82,26 @@ except:
 con.autocommit=True
 cur = con.cursor()
 
+cur.execute("""TRUNCATE people CASCADE""")
+cur.execute("""TRUNCATE companies CASCADE""")
+cur.execute("""TRUNCATE memberships CASCADE""")
+cur.execute("""TRUNCATE membership_holdings CASCADE""")
+cur.execute("""TRUNCATE pco_relationships CASCADE""")
+
 print "Loading companies to db..."
 for c in companies:
     cur.execute("""INSERT into companies (id, name, address1, address2, zip, state, city) VALUES (%s, %s, %s, %s, %s, %s, %s)""", (c['id'], c['company_name'], c['address1'], c['address2'], c['zip'], c['state'], c['city']))
 
 print "Loading people to db..."
 for p in people:
-    #if p['company_name'] in coById:
-    #    p['company_id'] = coById[p['company_name']]
     cur.execute("""INSERT into people (id, first_name, last_name, title) values (%s, %s, %s, %s);""", (p["id"], p['first_name'], p['last_name'], p['title']))
     if p['company_name'] in coById:
         cur.execute("""INSERT into pco_relationships (people_id, company_id) VALUES (%s, %s)""", (p['id'], coById[p['company_name']]))
+
+print "Setting Memberships..."
+mid = 11000
+for i in range(0,350):
+    cur.execute("""INSERT into memberships (id) values (%s)""", (mid,))
+    co_id = random.choice(companies)['id']
+    cur.execute("""INSERT into membership_holdings (company_id, member_id) VALUES (%s, %s)""", (co_id, mid))
+    mid+=1
