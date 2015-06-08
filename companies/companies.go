@@ -14,7 +14,7 @@ type Company struct {
 	Zip      string    `json:",omitempty"`
 	State    string    `json:",omitempty"`
 	Country  string    `json:",omitempty"`
-	Created  time.Time `json:"source,omitempty"`
+	Created  time.Time `json:",omitempty"`
 }
 
 func GetAll(db *sqlx.DB) ([]*Company, error) {

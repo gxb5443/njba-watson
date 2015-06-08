@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"../companies"
+	"../memberships"
 	"../people"
 
 	"github.com/gin-gonic/gin"
@@ -34,20 +35,12 @@ func GetCompanies(c *gin.Context) {
 
 func GetMemberships(c *gin.Context) {
 	db := c.MustGet("db").(*sqlx.DB)
-	query := `
-		SELECT companies.name as co, companies.id as co_id, membership_holdings.member_id as mem from membership_holdings inner join companies on membership_holdings.company_id=companies.id;
-	`
-	var cos []struct {
-		MemId string `db:"mem"`
-		CoId  string `db:"co_id"`
-		Name  string `db:"co"`
-	}
-	err := db.Select(&cos, query)
+	mem, err := memberships.GetAll(db)
 	if err != nil {
 		log.Printf("GetMemberships: %s", err)
 		return
 	}
-	c.JSON(200, cos)
+	c.JSON(200, mem)
 }
 
 func GetCompanyById(c *gin.Context) {
