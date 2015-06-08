@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"../companies"
 	"../people"
 
 	"github.com/gin-gonic/gin"
@@ -23,14 +24,7 @@ func GetPeople(c *gin.Context) {
 
 func GetCompanies(c *gin.Context) {
 	db := c.MustGet("db").(*sqlx.DB)
-	query := `
-		SELECT id, name FROM companies;	
-	`
-	var cos []struct {
-		Id   string
-		Name string `db:"name"`
-	}
-	err := db.Select(&cos, query)
+	cos, err := companies.GetAll(db)
 	if err != nil {
 		log.Printf("GetCompanies: %s", err)
 		return
