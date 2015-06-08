@@ -77,6 +77,7 @@ func RunWeb(dbopen, listen string) {
 	r.GET("/people", handlers.GetPeople)
 	r.GET("/companies", handlers.GetCompanies)
 	r.GET("/memberships", handlers.GetMemberships)
+	r.GET("/company/:cid", handlers.GetCompanyById)
 	/*
 		r.POST("/login", handlers.Login)
 		r.GET("/logout", handlers.Logout)

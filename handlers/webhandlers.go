@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -51,6 +53,31 @@ func GetMemberships(c *gin.Context) {
 		MemId string `db:"mem"`
 		CoId  string `db:"co_id"`
 		Name  string `db:"co"`
+	}
+	err := db.Select(&cos, query)
+	if err != nil {
+		log.Printf("GetMemberships: %s", err)
+		return
+	}
+	c.JSON(200, cos)
+}
+
+func GetCompanyById(c *gin.Context) {
+	db := c.MustGet("db").(*sqlx.DB)
+	cid := c.Param("cid")
+	//Add POC here
+	query := fmt.Sprintf(`
+		SELECT id, name, address1, address2, zip, city, state, created from companies where id='%s'
+	`, cid)
+	var cos []struct {
+		Id       string
+		Name     string
+		Address1 string
+		Address2 string
+		Zip      string
+		City     string
+		State    string
+		Created  time.Time
 	}
 	err := db.Select(&cos, query)
 	if err != nil {
