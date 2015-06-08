@@ -1,21 +1,18 @@
 package main
 
 import (
-	"database/sql"
 	"devportal/applications"
 	"devportal/credentials"
 	"devportal/users"
-	"devportal/utils"
-	"errors"
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"../Cuddy/handlers"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
@@ -105,7 +102,7 @@ func RunWeb(dbopen, listen string) {
 }
 
 func DB(dbopen string) gin.HandlerFunc {
-	db, err := sql.Open("postgres", dbopen)
+	db, err := sqlx.Open("postgres", dbopen)
 	if err != nil {
 		panic(err)
 	}
@@ -115,6 +112,7 @@ func DB(dbopen string) gin.HandlerFunc {
 	}
 }
 
+/*
 func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		_, ok := c.Request.Header["Authorization"]
@@ -143,3 +141,4 @@ func JWT() gin.HandlerFunc {
 		c.Next()
 	}
 }
+*/
