@@ -75,6 +75,7 @@ func RunWeb(dbopen, listen string) {
 	//r.Use(gzip.Gzip(gzip.BestSpeed))
 	r.Use(DB(dbopen))
 	r.GET("/people", handlers.GetPeople)
+	r.GET("/companies", handlers.GetCompanies)
 	/*
 		r.POST("/login", handlers.Login)
 		r.GET("/logout", handlers.Logout)

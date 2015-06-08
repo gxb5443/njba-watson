@@ -24,3 +24,20 @@ func GetPeople(c *gin.Context) {
 	}
 	c.JSON(200, people)
 }
+
+func GetCompanies(c *gin.Context) {
+	db := c.MustGet("db").(*sqlx.DB)
+	query := `
+		SELECT id, name FROM companies;	
+	`
+	var cos []struct {
+		Id   string
+		Name string `db:"name"`
+	}
+	err := db.Select(&cos, query)
+	if err != nil {
+		log.Printf("GetCompanies: %s", err)
+		return
+	}
+	c.JSON(200, cos)
+}
