@@ -52,3 +52,15 @@ func GetCompanyById(c *gin.Context) {
 	}
 	c.JSON(200, cos)
 }
+
+func GetPersonById(c *gin.Context) {
+	db := c.MustGet("db").(*sqlx.DB)
+	pid := c.Param("pid")
+	//Add POC here
+	p, err := people.GetById(db, pid)
+	if err != nil {
+		log.Printf("GetPersonById: %s", err)
+		return
+	}
+	c.JSON(200, p)
+}
