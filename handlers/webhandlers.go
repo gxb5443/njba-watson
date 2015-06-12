@@ -64,3 +64,14 @@ func GetPersonById(c *gin.Context) {
 	}
 	c.JSON(200, p)
 }
+
+func CreateCompany(c *gin.Context) {
+	db := c.MustGet("db").(*sqlx.DB)
+	var co companies.Company
+	c.Bind(&co)
+	err := co.Save(db)
+	if err != nil {
+		log.Printf("CreateCompany: %s", err)
+		return
+	}
+}

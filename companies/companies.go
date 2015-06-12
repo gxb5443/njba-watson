@@ -29,6 +29,18 @@ type nullCo struct {
 	Created  time.Time      `json:",omitempty" db:"created"`
 }
 
+func (co *Company) Save(db *sqlx.DB) error {
+	tx := db.MustBegin()
+	defer tx.Commit()
+	if co.Id == "" {
+		//New Record
+		tx.MustExec("INSERT INTO companies (name, address1, address2, zip, state, country) VALUES ($1,$2,$3,$4,$5,$6)", co.Name, co.Address1, co.Address2, co.Zip, co.State, co.Country)
+		return nil
+	}
+	tx.MustExec("UPDATE companies SET name=$1, address1=$2, address2=$3, zip=$4, state=$5, country=$6 WHERE id=$7", co.Name, co.Address1, co.Address2, co.Zip, co.State, co.Country, co.Id)
+	return nil
+}
+
 func GetAll(db *sqlx.DB) ([]*Company, error) {
 	query := ` SELECT id, name FROM companies;	`
 	var c []*Company
