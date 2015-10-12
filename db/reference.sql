@@ -44,9 +44,22 @@ CREATE TABLE IF NOT EXISTS pco_relationships (
   created timestamp without time zone default(now() at time zone 'utc')
 );
 
+CREATE TABLE IF NOT EXISTS locals (
+  id smallint PRIMARY KEY NOT NULL,
+  name text NOT NULL,
+  address text,
+  city text,
+  county text,
+  state text,
+  zip text,
+  created timestamp without time zone default(now() at time zone 'utc')
+);
+
 CREATE SEQUENCE member_id_seq;
 CREATE TABLE IF NOT EXISTS memberships(
   id smallint PRIMARY KEY NOT NULL DEFAULT nextval('member_id_seq'),
+  nahb_id smallint,
+  local_id smallint references locals(id),
   status varchar(15) NOT NULL DEFAULT 'active',
   created timestamp without time zone default(now() at time zone 'utc')
 );
