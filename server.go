@@ -80,6 +80,7 @@ func RunWeb(dbopen, listen string) {
 	r.GET("/company/:cid", handlers.GetCompanyById)
 	r.GET("/person/:pid", handlers.GetPersonById)
 	r.POST("/company", handlers.CreateCompany)
+	r.GET("/locals", handlers.GetLocals)
 	/*
 		r.POST("/login", handlers.Login)
 		r.GET("/logout", handlers.Logout)

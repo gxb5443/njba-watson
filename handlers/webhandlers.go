@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"../companies"
+	"../locals"
 	"../memberships"
 	"../people"
 
@@ -29,6 +30,16 @@ func GetCompanies(c *gin.Context) {
 		return
 	}
 	c.JSON(200, cos)
+}
+
+func GetLocals(c *gin.Context) {
+	db := c.MustGet("db").(*sqlx.DB)
+	los, err := locals.GetAll(db)
+	if err != nil {
+		log.Printf("GetCompanies: %s", err)
+		return
+	}
+	c.JSON(200, los)
 }
 
 func GetMemberships(c *gin.Context) {
