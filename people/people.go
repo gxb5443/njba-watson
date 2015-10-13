@@ -47,15 +47,15 @@ type nullPerson struct {
 	Created      time.Time      `json:"created,omitempty"`
 }
 
-func (this *People) Save(db *sqlx.DB) error {
+func (p *Person) Save(db *sqlx.DB) error {
 	tx := db.MustBegin()
 	defer tx.Commit()
-	if this.Id == "" {
+	if p.Id == "" {
 		//New Record
-		tx.MustExec("INSERT INTO people (first_name, last_name, middle_name, suffix, prefix, title, home_phone, cell_phone, source, email_address, address1, address2, zip, state, this.ntry) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15))", this.FirstName, this.LastName, this.MiddleName, this.suffix, this.prefix, this.title, this.Address1, this.Address2, this.Zip, this.State, this.this.ntry)
+		tx.MustExec("INSERT INTO people (first_name, last_name, middle_name, suffix, prefix, title, home_phone, cell_phone, source, email_address, address1, address2, zip, state, country) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15))", p.FirstName, p.LastName, p.MiddleName, p.Suffix, p.Prefix, p.Title, p.Address1, p.Address2, p.Zip, p.State, p.Country)
 		return nil
 	}
-	tx.MustExec("UPDATE companies SET , address=$2, address2=$3, zip=$4, state=$5, country=$6 WHERE id=$7", co.Name, co.Address1, co.Address2, co.Zip, co.State, co.Country, co.Id)
+	tx.MustExec("UPDATE people SET first_name=$1, last_name=$2, middle_name=$3, suffix=$4, prefix=$5, title=$6, home_phone=$7, cell_phone=$8, source=$9, email_address=$10, address1=$11, address2=$12, zip=$13, state=$14, country=$15 WHERE id=$16", p.FirstName, p.LastName, p.MiddleName, p.Suffix, p.Prefix, p.Title, p.Address1, p.Address2, p.Zip, p.State, p.Country, p.Id)
 	return nil
 }
 

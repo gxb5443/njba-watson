@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <img height="25px" src="img/close_icon.png" style="position:absolute; top:5px; left:20px; z-index:100;" ng-click="closeAppChanges();"></img>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="well well-sm">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">
+                  Name
+                </label>
+                <input ng-model="entry.name" type="text" class="form-control" id="name" placeholder="App Name" required="required" value="{{entry.name}}"/>
+              </div>
+              <div class="form-group">
+                <label for="Home Page">
+                  Home Page
+                </label>
+                <input ng-model="entry.homepage" type="text" class="form-control" id="homepage" placeholder="Home Page" required="required" value="{{entry.homepage}}"/>
+              </div>
+              <div class="form-group">
+                <label for="callback_url">
+                  Callback URL
+                </label>
+                <input ng-model="entry.callback_url" type="text" class="form-control" id="callback_url" placeholder="Callback Url" required="required" value="{{entry.callback_url}}"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">
+                  App Description</label>
+                <textarea ng-model="entry.description" name="description" id="description" class="form-control" rows="7" cols="25" placeholder="App Description" value="{{entry.description}}">{{entry.description}}</textarea>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="row">
+                <label>App Id: <p>{{entry.client_id}}</p></label>
+              </div>
+              <div class="row">
+                <label>App Secret: <p>{{entry.secret}}</p></label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button type="button" ng-click="deleteApp(entry);" class="button button-orange btn-lg pull-left">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+                Delete
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $.material.init();
+</script>

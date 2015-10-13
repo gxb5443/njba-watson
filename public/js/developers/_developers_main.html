@@ -1,0 +1,33 @@
+<div id="wrapper">
+  <div id="sidebar-wrapper" class="col-sm-2">
+    <nav class="nav-sidebar sidebar-nav">
+      <div class="nav-sidebar-section">
+        <div class="nav-sidebar-header">
+          Hi, <span>{{user_name}}</span>!
+        </div>
+        <div class="nav-sidebar-row">
+          <a ui-sref=".profile">My Profile</a>
+        </div>
+        <div class="nav-sidebar-row">
+          <a ui-sref=".apps">My Apps</a>
+        </div>
+        <div class="nav-sidebar-row">
+          <a href ng-click="logout();">Sign Out</a>
+        </div>
+      </div>
+      <!--
+      <ul class="nav">
+        <li><a ui-sref=".profile">My Profile</a></li>
+        <li><a ui-sref=".apps">My Apps</a></li>
+        <li><a href ng-click="logout();">Sign Out</a></li>
+      </ul>
+      -->
+    </nav>
+  </div><!-- /Side bar -->
+  <div class="page-content-wrapper">
+    <div class="container-fluid">
+      <div ui-view>
+      </div><!--/Template Content-->
+    </div><!-- /Fluid Container -->
+  </div><!-- /Fluid Container -->
+</div><!-- /page-content-wrapper-->

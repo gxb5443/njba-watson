@@ -1,0 +1,724 @@
+.orange-text {
+  color: #e05b18 !important; }
+
+.dark-orange-text {
+  color: #87411d !important; }
+
+.green-text {
+  color: #52ac00 !important; }
+
+.white-text {
+  color: white !important; }
+
+.grey-25-text {
+  color: #c4c7ca !important; }
+
+.grey-50-text {
+  color: #899096 !important; }
+
+.tertiary-blue-text {
+  color: #0e3e6b !important; }
+
+.primary-blue-text {
+  color: #186bb7 !important; }
+
+.baby-blue-text {
+  color: #a1d2ff !important; }
+
+.secondary-blue-text {
+  color: #4c9be6 !important; }
+
+.dark-yellow-text {
+  color: #9b7531 !important; }
+
+.yellow-text {
+  color: #fdb836 !important; }
+
+.dark-green-text {
+  color: #36660a !important; }
+
+@font-face {
+  font-family: 'Proxima';
+  src: url("https://f.namely.com/proxima.eot");
+  src: url("https://f.namely.com/proxima.eot?#iefix") format("embedded-opentype"), url("https://f.namely.com/proxima.woff") format("woff"), url("https://f.namely.com/proxima.ttf") format("truetype"), url("https://f.namely.com/proxima.svg#ProximaCondensedRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'Proxima';
+  src: url("https://f.namely.com/proxima-bold.eot");
+  src: url("https://f.namely.com/proxima-bold.eot?#iefix") format("embedded-opentype"), url("https://f.namely.com/proxima-bold.woff") format("woff"), url("https://f.namely.com/proxima-bold.ttf") format("truetype"), url("https://f.namely.com/proxima-bold.svg#ProximaCondensedSemibold") format("svg");
+  font-weight: bold;
+  font-style: normal; }
+/*
+  Custom SASS-based grid system.
+
+  Classnames are the same as the original 960 grid system.
+*/
+/* Variables -----------------------------------------------------------------*/
+/* Grid ----------------------------------------------------------------------*/
+/*
+  Forces backgrounds to span full width, even if there is horizontal scrolling.
+  Increase this if your layout is wider.
+
+  Note: IE6 works fine without this fix.
+*/
+body {
+  min-width: 960px; }
+
+.container {
+  margin: 0 auto;
+  width: 960px; }
+  .container .grid_1 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 40pxpx; }
+  .container .prefix_1 {
+    padding-left: 80pxpx; }
+  .container .suffix_1 {
+    padding-right: 80pxpx; }
+  .container .push_1 {
+    position: relative;
+    left: 80pxpx; }
+  .container .pull_1 {
+    position: relative;
+    left: 80pxpx; }
+  .container .grid_2 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 120pxpx; }
+  .container .prefix_2 {
+    padding-left: 160pxpx; }
+  .container .suffix_2 {
+    padding-right: 160pxpx; }
+  .container .push_2 {
+    position: relative;
+    left: 160pxpx; }
+  .container .pull_2 {
+    position: relative;
+    left: 160pxpx; }
+  .container .grid_3 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 200pxpx; }
+  .container .prefix_3 {
+    padding-left: 240pxpx; }
+  .container .suffix_3 {
+    padding-right: 240pxpx; }
+  .container .push_3 {
+    position: relative;
+    left: 240pxpx; }
+  .container .pull_3 {
+    position: relative;
+    left: 240pxpx; }
+  .container .grid_4 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 280pxpx; }
+  .container .prefix_4 {
+    padding-left: 320pxpx; }
+  .container .suffix_4 {
+    padding-right: 320pxpx; }
+  .container .push_4 {
+    position: relative;
+    left: 320pxpx; }
+  .container .pull_4 {
+    position: relative;
+    left: 320pxpx; }
+  .container .grid_5 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 360pxpx; }
+  .container .prefix_5 {
+    padding-left: 400pxpx; }
+  .container .suffix_5 {
+    padding-right: 400pxpx; }
+  .container .push_5 {
+    position: relative;
+    left: 400pxpx; }
+  .container .pull_5 {
+    position: relative;
+    left: 400pxpx; }
+  .container .grid_6 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 440pxpx; }
+  .container .prefix_6 {
+    padding-left: 480pxpx; }
+  .container .suffix_6 {
+    padding-right: 480pxpx; }
+  .container .push_6 {
+    position: relative;
+    left: 480pxpx; }
+  .container .pull_6 {
+    position: relative;
+    left: 480pxpx; }
+  .container .grid_7 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 520pxpx; }
+  .container .prefix_7 {
+    padding-left: 560pxpx; }
+  .container .suffix_7 {
+    padding-right: 560pxpx; }
+  .container .push_7 {
+    position: relative;
+    left: 560pxpx; }
+  .container .pull_7 {
+    position: relative;
+    left: 560pxpx; }
+  .container .grid_8 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 600pxpx; }
+  .container .prefix_8 {
+    padding-left: 640pxpx; }
+  .container .suffix_8 {
+    padding-right: 640pxpx; }
+  .container .push_8 {
+    position: relative;
+    left: 640pxpx; }
+  .container .pull_8 {
+    position: relative;
+    left: 640pxpx; }
+  .container .grid_9 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 680pxpx; }
+  .container .prefix_9 {
+    padding-left: 720pxpx; }
+  .container .suffix_9 {
+    padding-right: 720pxpx; }
+  .container .push_9 {
+    position: relative;
+    left: 720pxpx; }
+  .container .pull_9 {
+    position: relative;
+    left: 720pxpx; }
+  .container .grid_10 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 760pxpx; }
+  .container .prefix_10 {
+    padding-left: 800pxpx; }
+  .container .suffix_10 {
+    padding-right: 800pxpx; }
+  .container .push_10 {
+    position: relative;
+    left: 800pxpx; }
+  .container .pull_10 {
+    position: relative;
+    left: 800pxpx; }
+  .container .grid_11 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 840.0pxpx; }
+  .container .prefix_11 {
+    padding-left: 880pxpx; }
+  .container .suffix_11 {
+    padding-right: 880pxpx; }
+  .container .push_11 {
+    position: relative;
+    left: 880pxpx; }
+  .container .pull_11 {
+    position: relative;
+    left: 880pxpx; }
+  .container .grid_12 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10;
+    width: 920pxpx; }
+  .container .prefix_12 {
+    padding-left: 960pxpx; }
+  .container .suffix_12 {
+    padding-right: 960pxpx; }
+  .container .push_12 {
+    position: relative;
+    left: 960pxpx; }
+  .container .pull_12 {
+    position: relative;
+    left: 960pxpx; }
+
+/* Children (Alpha ~ First, Omega ~ Last) ------------------------------------*/
+.alpha {
+  margin-left: 0; }
+
+.omega {
+  margin-right: 0; }
+
+/* Clear Floated Elements ----------------------------------------------------*/
+/* http://sonspring.com/journal/clearing-floats */
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0; }
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+.clearfix:before, .clearfix:after, .container_12:before, .container_12:after {
+  content: '.';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0; }
+
+.clearfix:after, .container_12:after {
+  clear: both; }
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+.clearfix, .container_12 {
+  zoom: 1; }
+
+@font-face {
+  font-family: 'icomoon';
+  src: url("https://f.namely.com/icomoon.28.eot");
+  src: url("https://f.namely.com/icomoon.28.eot?#iefix") format("embedded-opentype"), url("https://f.namely.com/icomoon.28.woff") format("woff"), url("https://f.namely.com/icomoon.28.ttf") format("truetype"), url("https://f.namely.com/icomoon.28.svg#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+.oldicon36 {
+  border-radius: 2px; }
+
+.icon150 {
+  border-radius: 4px;
+  width: 150px !important;
+  height: 150px !important; }
+
+.ic {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased; }
+
+.check {
+  text-align: center;
+  line-height: 22px;
+  width: 22px;
+  color: #899096;
+  font-size: 15px;
+  display: inline-block; }
+  .check:before {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    content: "\e608";
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased; }
+
+.remind-action {
+  display: inline-block;
+  position: relative;
+  text-align: center; }
+  .remind-action:hover {
+    color: #186bb7; }
+    .remind-action:hover .tooltip-small {
+      opacity: 1; }
+  .remind-action.disabled {
+    color: #c4c7ca; }
+    .remind-action.disabled:hover {
+      color: #c4c7ca; }
+    .remind-action.disabled .remind-icon {
+      cursor: not-allowed; }
+  .remind-action.wide .tooltip-small {
+    width: 75px;
+    right: -39px; }
+  .remind-action .remind-icon {
+    cursor: pointer; }
+  .remind-action .tooltip-small {
+    -webkit-transition: all 0.15s ease-out 0s;
+    -moz-transition: all 0.15s ease-out 0s;
+    transition: all 0.15s ease-out 0s;
+    -webkit-transition-property: "opacity";
+    -moz-transition-property: "opacity";
+    transition-property: "opacity";
+    display: block;
+    opacity: 0;
+    position: absolute;
+    top: 26px;
+    right: -24px;
+    z-index: 9999; }
+    .remind-action .tooltip-small .up-arrow {
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      margin-left: -7px;
+      display: block; }
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0; }
+
+  100% {
+    opacity: 1; } }
+@-moz-keyframes fade-in {
+  0% {
+    opacity: 0; }
+
+  100% {
+    opacity: 1; } }
+@keyframes fade-in {
+  0% {
+    opacity: 0; }
+
+  100% {
+    opacity: 1; } }
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+@-moz-keyframes fade-out {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+@keyframes fade-out {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+@-webkit-keyframes move-down {
+  0% {
+    bottom: 5px; }
+
+  100% {
+    bottom: 0px; } }
+@-moz-keyframes move-down {
+  0% {
+    bottom: 5px; }
+
+  100% {
+    bottom: 0px; } }
+@keyframes move-down {
+  0% {
+    bottom: 5px; }
+
+  100% {
+    bottom: 0px; } }
+/* Based on pure css */
+.button, .slim-button, .stout-button, .clear-button, .cancel-button {
+  /* Structure */
+  display: inline-block;
+  *display: inline;
+  /*IE 6/7*/
+  zoom: 1;
+  line-height: normal;
+  white-space: nowrap;
+  vertical-align: baseline;
+  text-align: center;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  user-drag: none;
+  -webkit-user-drag: none;
+  position: relative; }
+  .button.with-icon, .with-icon.slim-button, .with-icon.stout-button, .with-icon.clear-button, .with-icon.cancel-button {
+    padding: 0;
+    overflow: hidden; }
+    .button.with-icon .left, .with-icon.slim-button .left, .with-icon.stout-button .left, .with-icon.clear-button .left, .with-icon.cancel-button .left {
+      padding: 0.3em 0em 0.3em 0.8em;
+      -webkit-transition: background 0.1s ease-in;
+      -moz-transition: background 0.1s ease-in;
+      transition: background 0.1s ease-in;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#1a000000',GradientType=0);
+      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(40%, rgba(0, 0, 0, 0.05)), to(rgba(0, 0, 0, 0.1)));
+      background-image: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
+      background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.1));
+      background-image: -ms-linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
+      background-image: -o-linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
+      background-image: linear, false, transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1);
+      color: white; }
+    .button.with-icon .right, .with-icon.slim-button .right, .with-icon.stout-button .right, .with-icon.clear-button .right, .with-icon.cancel-button .right {
+      background: #4c9be6;
+      padding: 0.3em 0.8em 0.3em; }
+
+.slim-button {
+  padding: 0.2em 0.6em 0.2em !important; }
+
+.stout-button {
+  padding: 0.2em 0.6em 0.2em !important;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: bold; }
+
+.clear-button, .cancel-button {
+  background-color: inherit !important;
+  background-image: none !important; }
+
+.cancel-button {
+  color: #a1d2ff !important; }
+
+/* Firefox: Get rid of the inner focus border */
+.button::-moz-focus-inner, .slim-button::-moz-focus-inner, .stout-button::-moz-focus-inner, .clear-button::-moz-focus-inner, .cancel-button::-moz-focus-inner {
+  padding: 0;
+  border: 0; }
+
+.button, .slim-button, .stout-button, .clear-button, .cancel-button {
+  border-radius: 3px;
+  padding: 0.3em 1em 0.3em;
+  color: white;
+  border: 1px solid #999;
+  /*IE 6/7/8*/
+  border: none transparent;
+  /*IE9 + everything else*/
+  background-color: #186ab7;
+  text-decoration: none;
+  /* Transitions */
+  -webkit-transition: box-shadow 0.1s linear;
+  -moz-transition: box-shadow 0.1s linear;
+  transition: box-shadow 0.1s linear; }
+
+.button.cancel, .cancel.slim-button, .cancel.stout-button, .cancel.clear-button, .cancel.cancel-button {
+  background: none;
+  color: #186ab7; }
+  .button.cancel:hover, .cancel.slim-button:hover, .cancel.stout-button:hover, .cancel.clear-button:hover, .cancel.cancel-button:hover {
+    background: none;
+    color: #073d6e; }
+
+.button-hover,
+.button:hover,
+.slim-button:hover,
+.stout-button:hover,
+.clear-button:hover,
+.cancel-button:hover,
+.button:focus,
+.slim-button:focus,
+.stout-button:focus,
+.clear-button:focus,
+.cancel-button:focus {
+  -webkit-transition: background 0.1s ease-in;
+  -moz-transition: background 0.1s ease-in;
+  transition: background 0.1s ease-in;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#1a000000',GradientType=0);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(40%, rgba(0, 0, 0, 0.05)), to(rgba(0, 0, 0, 0.1)));
+  background-image: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.1));
+  background-image: -ms-linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
+  background-image: -o-linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
+  background-image: linear, false, transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1);
+  color: white; }
+
+.button:focus, .slim-button:focus, .stout-button:focus, .clear-button:focus, .cancel-button:focus {
+  outline: 0; }
+
+.button[disabled], [disabled].slim-button, [disabled].stout-button, [disabled].clear-button, [disabled].cancel-button,
+.button-disabled,
+.button-disabled:hover,
+.button-disabled:focus,
+.button-disabled:active {
+  border: none;
+  background-image: none;
+  box-shadow: none;
+  cursor: not-allowed;
+  background-color: #4f5962 !important; }
+
+.button-hidden {
+  display: none; }
+
+/* Firefox: Get rid of the inner focus border */
+.button::-moz-focus-inner, .slim-button::-moz-focus-inner, .stout-button::-moz-focus-inner, .clear-button::-moz-focus-inner, .cancel-button::-moz-focus-inner {
+  padding: 0;
+  border: 0; }
+
+.button-primary,
+.button-selected,
+a.button-primary,
+a.button-selected {
+  background-color: #0078e7;
+  color: #fff; }
+
+.button.left-margin, .left-margin.slim-button, .left-margin.stout-button, .left-margin.clear-button, .left-margin.cancel-button {
+  margin-left: 10px; }
+
+.button-small, .add-person-form .add-token-button,
+.add-person-form .add-token-button:active {
+  font-size: 14px;
+  line-height: 24px !important;
+  height: 24px;
+  padding: 0 10px; }
+
+.button-gray {
+  background-color: #5b5b5b; }
+
+.button-orange {
+  background-color: #df5b18 !important; }
+
+.button-dark {
+  background-color: #5b5b5b; }
+
+.button-secondary, .add-person-form .add-token-button,
+.add-person-form .add-token-button:active {
+  background-color: #4c9be6; }
+
+.button-white {
+  background-color: white;
+  color: #5b5b5b;
+  border: 1px solid #cccacb; }
+
+.button-white:hover {
+  color: #151514; }
+
+.button .ic, .slim-button .ic, .stout-button .ic, .clear-button .ic, .cancel-button .ic {
+  position: relative;
+  left: -7px;
+  font-size: 19px;
+  float: left; }
+
+.add-division {
+  margin-left: 8px; }
+
+.delete-category {
+  margin-left: 4px; }
+
+.unstyled-button {
+  margin-right: 15px;
+  line-height: 30px; }
+
+.delete-x {
+  -webkit-transition: opacity 0.1s ease-in;
+  -moz-transition: opacity 0.1s ease-in;
+  transition: opacity 0.1s ease-in;
+  color: #186bb7;
+  font-size: 12px;
+  opacity: 0;
+  cursor: pointer; }
+  .delete-x:before {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    content: "\e60d";
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased; }
+
+.add-person {
+  font-weight: bold;
+  padding-left: 10px;
+  color: #4c9be6;
+  height: 16px;
+  line-height: 8px;
+  width: 120px;
+  padding-left: 0; }
+  .add-person:before {
+    content: '+';
+    font-size: 25px;
+    padding-right: 5px;
+    position: relative;
+    top: 3px; }
+  .add-person:hover {
+    -webkit-transition: color 0.1s ease-in;
+    -moz-transition: color 0.1s ease-in;
+    transition: color 0.1s ease-in;
+    cursor: pointer;
+    color: #186bb7; }
+
+.add-person-form {
+  position: relative;
+  width: 385px; }
+  .add-person-form .token-input-list-namely .token-input-input-token-namely input {
+    width: 100% !important; }
+  .add-person-form .token-input-list-namely .token-input-input-token-namely {
+    height: 24px; }
+  .add-person-form .token-input-list-namely {
+    width: auto;
+    margin-left: 25px;
+    margin-right: 51px; }
+  .add-person-form .add-token-button,
+  .add-person-form .add-token-button:active {
+    position: absolute;
+    top: 0;
+    right: 0; }

@@ -1,0 +1,55 @@
+<div class="fluid-container" >
+  <div class="row" style="position:relative;">
+    <button style="position:fixed; z-index:100; right:5px;" type="button" ng-click="closeUserChanges();" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <div class="col-md-8">
+      <div class="well well-sm">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="first_name">
+                  First Name
+                </label>
+                <input ng-model="entry.first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required="required" value="{{entry.first_name}}"/>
+              </div>
+              <div class="form-group">
+                <label for="last_name">
+                  Last Name
+                </label>
+                <input type="text" ng-model="entry.last_name" class="form-control" id="last_name" placeholder="Last Name" required="required" value="{{entry.last_name}}"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="companies">
+                  companies
+                </label>
+                <input type="text" class="form-control" id="companies" placeholder="companies" ng-model="entry.companies" required="required" value="{{entry.companies}}"/>
+              </div>
+              <div class="checkbox checkbox-primary">
+                <label for="admin">
+                  <input type="checkbox" class="" id="admin" ng-model="entry.admin" ng-checked="entry.admin"/>Admin
+                </label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <!--
+              <button type="button" ng-click="saveUserChanges(entry)" class="btn btn-primary btn-lg pull-right">
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> 
+                Save
+              </button>
+              -->
+              <button type="button" ng-click="deleteUser(entry)" class="button button-orange btn-lg pull-left">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+                Delete
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$.material.init();
+</script>

@@ -1,0 +1,85 @@
+<div id="new_app" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">New App</h3>
+      </div>
+      <div class="modal-body">
+        <form name="new_user_form" role="form" novalidate>
+          <div class="form-group" ng-class="{ 'has-error' : appName.name.$invalid }">
+            <ng-form name="appName">
+              <label>Application Name</label>
+              <input type="text" class="form-control" name="name" ng-model="new_app.name" required>
+              <p class="help-block" ng-show="appName.name.$invalid">Valid App Name Required</p>
+            </ng-form>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : appcallback.url.$invalid }">
+            <ng-form name="appcallback">
+              <label>Callback URL</label>
+              <input type="url" pattern="https?://.+" class="form-control" name="url" ng-model="new_app.callback_url" required>
+              <p class="help-block" ng-show="appcallback.url.$invalid">Valid Callback URL Required</p>
+            </ng-form>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : homepage.url.$invalid }">
+            <ng-form name="homepage">
+              <label>Homepage URL</label>
+              <input type="url" pattern="https?://.+" class="form-control" name="url" ng-model="new_app.homepage" required>
+              <p class="help-block" ng-show="homepage.url.$invalid">Valid Homepage URL Required</p>
+            </ng-form>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-click="processApp();" class="button" ng-disabled="new_user_form.$invalid">Submit</button>
+      </div>
+    </div>
+  </div>
+</div><!--/New App Modal -->
+</div>
+<div id="apps_manager" class="container-fluid">
+  <div class="row">
+    <h2>App Management</h2>
+  </div>
+  <div class="row col-md-12">
+    <span class="btn-group center-block pull-left">
+      <button class="button btn-lg" data-toggle="modal" data-target="#new_app">
+        <span class="glyphicon glyphicon-plus"></span> New App
+      </button>
+    </span>
+  </div>
+  <div class="row">
+    <table ng-table="apptableParams" class="table">
+      <tbody ng-repeat="entry in $data">
+        <tr ng-show="editId!=entry.client_id" id="tr_{{entry.client_id}}" ng-class-odd="'odd'" ng-class-even="'even'">
+          <td style="text-align:center;" data-title="'App ID'">
+            <span>{{entry.client_id}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'App Name'">
+            <span>{{entry.name}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'Description'">
+            <span>{{entry.description | limitTo : 20}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'Created'">
+            <span>{{entry.created | date: 'MM/dd/yyyy @ h:mma'}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'Actions'" width="200">
+            <!--
+            <a href="" class="btn btn-default btn-xs" ng-click="setEditId(entry.client_id)">Edit</a>
+            -->
+            <button type="button" ng-click="setEditId(entry.client_id);" class="btn btn-fab btn-raised btn-primary">
+              <i class="mdi-editor-mode-edit" aria-hidden="true"></i> 
+            </button>
+          </td>
+        </tr>
+        <tr ng-show="editId===entry.client_id" ng-if="editId===entry.client_id">
+          <td style="text-align:center;" colspan="6" ng-include src="'/js/developers/editAppRow.html'"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!--/Table Row-->
+</div>
+<script>
+$.material.init();
+</script>

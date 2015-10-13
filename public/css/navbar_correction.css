@@ -1,0 +1,15 @@
+body{
+  padding-top:70px;
+}
+.form-actions {
+  margin: 0;
+  margin-top:10px;
+  background-color: transparent;
+  text-align: center;
+}
+
+.alert.top {
+  position:absolute;
+  top:60px;
+  right:10px;
+}

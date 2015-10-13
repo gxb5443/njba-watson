@@ -1,0 +1,26 @@
+<div id="wrapper">
+  <div id="sidebar-wrapper" class="col-sm-2">
+    <nav class="nav-sidebar sidebar-nav">
+      <div class="nav-sidebar-section">
+        <div class="nav-sidebar-header">
+          Hi, <span>{{user_name}}</span>!
+        </div>
+        <div class="nav-sidebar-row">
+          <a ui-sref=".users">Users</a>
+        </div>
+        <div class="nav-sidebar-row">
+          <a ui-sref=".apps">Apps</a>
+        </div>
+        <div class="nav-sidebar-row">
+          <a ng-click="logout();">Sign Out</a>
+        </div>
+      </div>
+    </nav>
+  </div><!-- /Side bar -->
+  <div class="page-content-wrapper">
+    <div class="container-fluid">
+      <div ui-view>
+      </div><!--/Template Content-->
+    </div><!-- /Fluid Container -->
+  </div><!-- /Fluid Container -->
+</div><!-- /page-content-wrapper-->

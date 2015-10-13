@@ -1,0 +1,25 @@
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+  <div class="container">
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+      <div class="account-wall">
+        <img class="profile-img" src="/img/Namely_Logo_symbol.png" alt="Namely Logo">
+        <p class="profile-name">Developer Login</p>
+        <form name="login_form" class="form-signin" role="form" ng-submit="processLogin()">
+          <input type="text" class="form-control" ng-model="credentials.username" placeholder="Username" required autofocus>
+          <input type="password" class="form-control" ng-model="credentials.password" placeholder="Password" required>
+          <button class="button btn-lg btn-block" type="submit" ng-disabled="login_form.$invalid">
+            Sign in
+          </button>
+          <a href="#" class="need-help">Need help?</a><span class="clearfix"></span>
+          <a ui-sref="begin_reset_password" class="need-help">Forgot Password?</a><span class="clearfix"></span>
+        </form>
+      </div>
+      <a href="#" class="text-center new-account">Don't have an account?</a>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $.material.init();
+  });
+</script>

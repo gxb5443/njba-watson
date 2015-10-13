@@ -1,0 +1,33 @@
+<div id="apps_manager" class="container-fluid">
+  <div class="row">
+    <h2>App Management</h2>
+  </div>
+  <div class="row">
+    <table ng-table="apptableParams" class="table">
+      <tbody ng-repeat="entry in $data">
+        <tr ng-show="editId!=entry.client_id" id="tr_{{entry.client_id}}" ng-class-odd="'odd'" ng-class-even="'even'">
+          <td style="text-align:center;" data-title="'App ID'">
+            <span>{{entry.client_id}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'App Name'">
+            <span>{{entry.name}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'Description'">
+            <span>{{entry.description | limitTo : 20}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'Created'">
+            <span>{{entry.created | date: 'MM/dd/yyyy @ h:mma'}}</span>
+          </td>
+          <td style="text-align:center;" data-title="'Actions'" width="200">
+            <button type="button" ng-click="setEditId(entry.client_id);" class="btn btn-fab btn-raised btn-primary">
+              <i class="mdi-editor-mode-edit" aria-hidden="true"></i> 
+            </button>
+          </td>
+        </tr>
+        <tr ng-show="editId===entry.client_id" ng-if="editId===entry.client_id">
+          <td style="text-align:center;" colspan="6" ng-include src="'/js/admin/editAppRow.html'"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!--/Table Row-->
+</div>
