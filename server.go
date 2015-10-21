@@ -74,32 +74,24 @@ func RunWeb(dbopen, listen string) {
 	r := gin.Default()
 	//r.Use(gzip.Gzip(gzip.BestSpeed))
 	r.Use(DB(dbopen))
-	r.GET("/people", handlers.GetPeople)
-	r.GET("/companies", handlers.GetCompanies)
-	r.GET("/memberships", handlers.GetMemberships)
-	r.GET("/locals", handlers.GetLocals)
-	r.GET("/company/:cid", handlers.GetCompanyById)
-	r.GET("/person/:pid", handlers.GetPersonById)
-	r.POST("/company", handlers.CreateCompany)
-	/*
 		r.POST("/login", handlers.Login)
 		r.GET("/logout", handlers.Logout)
-	*/
-	/*
 		v1 := r.Group("/v1")
 		v1.Use(JWT())
 		{
-			v1.GET("/users", handlers.GetAllUsers)
-			v1.GET("/users/:id", handlers.GetUser)
-			v1.GET("/users/:id/apps", handlers.GetUserApps)
-			v1.GET("/apps", handlers.GetAllApps)
-			v1.GET("/apps/:id", handlers.GetApp)
+	v1.GET("/people", handlers.GetPeople)
+	v1.GET("/companies", handlers.GetCompanies)
+	v1.GET("/memberships", handlers.GetMemberships)
+	v1.GET("/locals", handlers.GetLocals)
+	v1.GET("/company/:cid", handlers.GetCompanyById)
+	v1.GET("/person/:pid", handlers.GetPersonById)
+	v1.POST("/company", handlers.CreateCompany)
+	/*
 			v1.POST("/users", handlers.AddUser)
 			v1.PUT("/users", handlers.UpdateUser)
-			v1.POST("/apps", handlers.AddApp)
-			v1.POST("/secret", handlers.RegenerateAppSecret)
 			v1.DELETE("/users/:id", handlers.DeleteUser)
-			v1.DELETE("/apps/:id", handlers.DeleteApp)
+	*/
+			v1.POST("/secret", handlers.RegenerateAppSecret)
 		}
 	*/
 	r.NoRoute(static.Serve("/", static.LocalFile("./public/", true)))

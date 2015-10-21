@@ -7,11 +7,13 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
       .config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/");
         $stateProvider
+        /*
           .state('login', {
             url: "/",
             templateUrl: "/js/_login.html",
             controller: "LoginCtrl"
           })
+        */
           .state('begin_reset_password', {
             url: "/password",
             templateUrl: "/js/_password_reset.html",
@@ -61,6 +63,7 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
             controller: "DevAppCtrl"
           })
       })
+      /*
       .config(function($httpProvider, jwtInterceptorProvider) {
         jwtInterceptorProvider.tokenGetter = ['localStorageService', function(localStorageService) {
           return localStorageService.get('token');
@@ -97,6 +100,7 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
           return AuthenticationInterceptor
         }])
       })
+      */
       .service('AuthService', ['$http','$q', '$state', 'localStorageService', '$alert', 'jwtHelper', function($http, $q, $state, localStorageService, $alert, jwtHelper){
         this.loggedIn = false;
         this.token = null;
