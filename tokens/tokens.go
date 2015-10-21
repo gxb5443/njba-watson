@@ -11,7 +11,7 @@ var ErrTokenNotValid = errors.New("Token not valid")
 var ErrNoTokensFound = errors.New("No Tokens found")
 
 type RefreshToken struct {
-	Token   string    `db:"id" json:"id"`
+	Token   string    `db:"token" json:"token"`
 	UserId  string    `db:"user_id" json:"user_id"`
 	Active  bool      `db:"active" "json:"active"`
 	Created time.Time `db:"created" json:"created"`
@@ -41,5 +41,21 @@ func (u *RefreshToken) Save(db *sqlx.DB) error {
 		return nil
 	}
 	tx.MustExec("UPDATE refresh_tokens SET user_id=$1, active=$2 WHERE id=$3", u.UserId, u.Active, u.Token)
+	return nil
+}
+
+//DeleteByUserId removes a token from the database by user id
+func DeleteByUserId(db *sqlx.DB, uid string) error {
+	tx := db.MustBegin()
+	defer tx.Commit()
+	tx.MustExec("DELETE FROM refresh_tokens WHERE user_id=$1", uid)
+	return nil
+}
+
+//DeleteByUserId removes a token from the database by user id
+func (u *RefreshToken) Delete(db *sqlx.DB) error {
+	tx := db.MustBegin()
+	defer tx.Commit()
+	tx.MustExec("DELETE FROM refresh_tokens WHERE token=$1", u.Token)
 	return nil
 }
