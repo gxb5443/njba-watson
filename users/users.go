@@ -6,7 +6,6 @@ import (
 	"errors"
 	"time"
 
-	"github.com/coopernurse/gorp"
 	"github.com/dchest/uniuri"
 	"github.com/jmoiron/sqlx"
 )
@@ -54,22 +53,14 @@ func (u *User) Save(db *sqlx.DB) error {
 }
 
 //DeleteById finds a user by their UUID and then deletes them.
-func DeleteById(dbMap *gorp.DbMap, id string) error {
-	u, err := Get(dbMap, id)
-	if err != nil {
-		return err
-	}
-	if u == nil {
-		return nil
-	}
-	err = Delete(dbMap, u)
+func DeleteById(db *sqlx.DB, id string) error {
+	_, err := db.NamedExec("DELETE FROM users where id=:id", id)
 	return err
 }
 
 //Delete deletes a user from the datastore
-func Delete(dbMap *gorp.DbMap, user *User) error {
-	_, err := dbMap.Delete(user)
-	return err
+func Delete(db *sqlx.DB, user *User) error {
+	return DeleteById(db, user.Id)
 }
 
 //GenerateAccessCode Generates Invite code
@@ -79,33 +70,39 @@ func GenerateAccessCode() string {
 }
 
 //GetAlL fetches all Users from database
-func GetAll(dbMap *gorp.DbMap) ([]*User, error) {
-	objs, err := dbMap.Select(User{}, "select * from users")
-	users := make([]*User, len(objs))
-	for i, u := range objs {
-		users[i] = u.(*User)
+func GetAll(db *sqlx.DB) ([]*User, error) {
+	query := `SELECT * FROM users;`
+	var u []*User
+	err := db.Select(&u, query)
+	if err != nil {
+		return nil, err
 	}
-	return users, err
+	return u, nil
 }
 
 //Get Fetches a single User from database by Id
-func Get(dbMap *gorp.DbMap, id string) (*User, error) {
-	//obj, err := dbMap.Get(User{}, id)
-	user := new(User)
-	err := dbMap.SelectOne(&user, "select * from users where id=$1 LIMIT 1", id)
-	return user, err
+func Get(db *sqlx.DB, id string) (*User, error) {
+	query := `SELECT * FROM users WHERE id=$1 LIMIT 1`
+	var c nullUser
+	err := db.Get(&c, query, id)
+	if err != nil {
+		return nil, err
+	}
+	out := translateNulls(c)
+	out.Created = c.Created
+	return out, nil
 }
 
 //EmailExists Checks if an email address is available
-func EmailExists(dbMap *gorp.DbMap, email string) (bool, error) {
+func EmailExists(db *sqlx.DB, email string) (bool, error) {
 	var exists = false
-	err := dbMap.SelectOne(&exists, "select exists(select email from users where email=$1)", email)
+	err := db.Select(&exists, "select exists(select email from users where email=$1)", email)
 	return exists, err
 }
 
 //IdExists Checks if a user id exists
-func IdExists(dbMap *gorp.DbMap, id string) (bool, error) {
+func IdExists(db *sqlx.DB, id string) (bool, error) {
 	var exists = false
-	err := dbMap.SelectOne(&exists, "select exists(select id from users where id=$1)", id)
+	err := db.Select(&exists, "select exists(select id from users where id=$1)", id)
 	return exists, err
 }
