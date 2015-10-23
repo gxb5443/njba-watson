@@ -8,54 +8,62 @@ import (
 )
 
 type Person struct {
-	Id           string    `json:",omitempty"`
+	Id           string    `json:",omitempty" db:"id"`
 	FirstName    string    `json:"first_name,omitempty" db:"first_name"`
 	LastName     string    `json:"last_name,omitempty" db:"last_name"`
 	MiddleName   string    `json:"middle_name,omitempty" db:"middle_name"`
-	Suffix       string    `json:",omitempty"`
-	Prefix       string    `json:",omitempty"`
-	Title        string    `json:",omitempty"`
-	Address1     string    `json:",omitempty"`
-	Address2     string    `json:",omitempty"`
-	Zip          string    `json:",omitempty"`
-	State        string    `json:",omitempty"`
-	Country      string    `json:",omitempty"`
-	HomePhone    string    `json:"home_phone,omitempty"`
-	CellPhone    string    `json:"cell_phone,omitempty"`
-	EmailAddress string    `json:"email_address,omitempty"`
-	Source       string    `json:"source,omitempty"`
-	Created      time.Time `json:"created,omitempty"`
+	Suffix       string    `json:",omitempty" db:"suffix"`
+	Prefix       string    `json:",omitempty" db:"prefix"`
+	Title        string    `json:",omitempty" db:"title"`
+	Address1     string    `json:",omitempty" db:"address1"`
+	Address2     string    `json:",omitempty" db:"address2"`
+	Zip          string    `json:",omitempty" db:"zip`
+	State        string    `json:",omitempty" db:"state"`
+	Country      string    `json:",omitempty" db:"country"`
+	HomePhone    string    `json:"home_phone,omitempty" db:"home_phone"`
+	CellPhone    string    `json:"cell_phone,omitempty" db:"cell_phone"`
+	EmailAddress string    `json:"email_address,omitempty" db:"email_address"`
+	Source       string    `json:"source,omitempty" db:"source"`
+	Created      time.Time `json:"created,omitempty" db:"created"`
 }
 
 type nullPerson struct {
-	Id           sql.NullString `json:",omitempty"`
+	Id           sql.NullString `json:",omitempty" db:"id"`
 	FirstName    sql.NullString `json:"first_name,omitempty" db:"first_name"`
 	LastName     sql.NullString `json:"last_name,omitempty" db:"last_name"`
 	MiddleName   sql.NullString `json:"middle_name,omitempty" db:"middle_name"`
-	Suffix       sql.NullString `json:",omitempty"`
-	Prefix       sql.NullString `json:",omitempty"`
-	Title        sql.NullString `json:",omitempty"`
-	Address1     sql.NullString `json:",omitempty"`
-	Address2     sql.NullString `json:",omitempty"`
-	Zip          sql.NullString `json:",omitempty"`
-	State        sql.NullString `json:",omitempty"`
-	Country      sql.NullString `json:",omitempty"`
+	Suffix       sql.NullString `json:",omitempty" db:"suffix"`
+	Prefix       sql.NullString `json:",omitempty" db:"prefix"`
+	Title        sql.NullString `json:",omitempty" db:"title"`
+	Address1     sql.NullString `json:",omitempty" db:"address1"`
+	Address2     sql.NullString `json:",omitempty" db:"address2"`
+	Zip          sql.NullString `json:",omitempty" db:"zip`
+	State        sql.NullString `json:",omitempty" db:"state"`
+	Country      sql.NullString `json:",omitempty" db:"country"`
 	HomePhone    sql.NullString `json:"home_phone,omitempty" db:"home_phone"`
 	CellPhone    sql.NullString `json:"cell_phone,omitempty" db:"cell_phone"`
 	EmailAddress sql.NullString `json:"email_address,omitempty" db:"email_address"`
-	Source       sql.NullString `json:"source,omitempty"`
-	Created      time.Time      `json:"created,omitempty"`
+	Source       sql.NullString `json:"source,omitempty" db:"source"`
+	Created      time.Time      `json:"created,omitempty" db:"created"`
 }
 
 func (p *Person) Save(db *sqlx.DB) error {
-	tx := db.MustBegin()
-	defer tx.Commit()
 	if p.Id == "" {
 		//New Record
-		tx.MustExec("INSERT INTO people (first_name, last_name, middle_name, suffix, prefix, title, home_phone, cell_phone, source, email_address, address1, address2, zip, state, country) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15))", p.FirstName, p.LastName, p.MiddleName, p.Suffix, p.Prefix, p.Title, p.Address1, p.Address2, p.Zip, p.State, p.Country)
-		return nil
+		//SCAN FOR ID
+		rows, err := db.NamedQuery("INSERT INTO people (first_name, last_name, middle_name, suffix, prefix, title, home_phone, cell_phone, source, email_address, address1, address2, zip, state, country) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)", p)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+		if rows.Next() {
+			rows.Scan(&p.Id)
+		}
 	}
-	tx.MustExec("UPDATE people SET first_name=$1, last_name=$2, middle_name=$3, suffix=$4, prefix=$5, title=$6, home_phone=$7, cell_phone=$8, source=$9, email_address=$10, address1=$11, address2=$12, zip=$13, state=$14, country=$15 WHERE id=$16", p.FirstName, p.LastName, p.MiddleName, p.Suffix, p.Prefix, p.Title, p.Address1, p.Address2, p.Zip, p.State, p.Country, p.Id)
+	_, err := db.NamedQuery("UPDATE people SET first_name=:first_name, last_name=:last_name, middle_name=:middle_name, suffix=:suffix, prefix=:prefix, title=:title, home_phone=:home_phone, cell_phone=:cell_phone, source=:source, email_address=:email_address, address1=:address1, address2=:address2, zip=$13, state=$14, country=$15 WHERE id=$16", p)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -76,6 +84,12 @@ func GetById(db *sqlx.DB, id string) (*Person, error) {
 	if err != nil {
 		return nil, err
 	}
+	out := translateNulls(c)
+	out.Created = c.Created
+	return out, nil
+}
+
+func translateNulls(c nullPerson) *Person {
 	out := new(Person)
 	if c.Id.Valid {
 		out.Id = c.Id.String
@@ -119,6 +133,5 @@ func GetById(db *sqlx.DB, id string) (*Person, error) {
 	if c.Country.Valid {
 		out.Country = c.Country.String
 	}
-	out.Created = c.Created
-	return out, nil
+	return out
 }
