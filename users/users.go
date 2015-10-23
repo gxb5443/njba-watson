@@ -2,11 +2,13 @@
 package users
 
 import (
+	"database/sql"
 	"errors"
 	"time"
 
 	"github.com/coopernurse/gorp"
 	"github.com/dchest/uniuri"
+	"github.com/jmoiron/sqlx"
 )
 
 type User struct {
@@ -16,26 +18,37 @@ type User struct {
 	Email     string    `db:"email" json:"email"`
 	Active    bool      `db:"active" json:"active"`
 	Admin     bool      `db:"admin" json:"admin"`
-	Companies string    `db:"companies" json:"companies"`
 	Created   time.Time `db:"created" json:"created"`
+}
+
+type nullUser struct {
+	Id        sql.NullString `db:"id" json:"id"`
+	FirstName sql.NullString `db:"first_name" json:"first_name"`
+	LastName  sql.NullString `db:"last_name" json:"last_name"`
+	Email     sql.NullString `db:"email" json:"email"`
+	Active    bool           `db:"active" json:"active"`
+	Admin     bool           `db:"admin" json:"admin"`
+	Created   time.Time      `db:"created" json:"created"`
 }
 
 //Save saves developer to datastore.  Returns error if something went wrong.
 //If it is a new user, it will insert into database and
 //update User with proper ID
-func (u *User) Save(dbMap *gorp.DbMap) error {
-	if u.Id != "" {
-		_, err := dbMap.Update(u)
+func (u *User) Save(db *sqlx.DB) error {
+	if u.Id == "" {
+		rows, err := db.NamedQuery("INSERT INTO users (first_name, last_name, email, admin) VALUES (:first_name, :last_name, :email, :admin) RETURNING id", u)
 		if err != nil {
 			return errors.New("Could not update given User")
 		}
-	} else {
-		u.Created = time.Now()
-		err := dbMap.Insert(u)
-		if err != nil {
-			return err
-			//return errors.New("Could not add new user")
+		defer rows.Close()
+		if rows.Next() {
+			rows.Scan(&u.Id)
 		}
+		return nil
+	}
+	_, err := db.NamedExec("UPDATE users SET first_name=:first_name, last_name=:last_name, email=:email, admin=:admin, active=:active WHERE id=:id", u)
+	if err != nil {
+		return err
 	}
 	return nil
 }
