@@ -59,3 +59,9 @@ func (u *RefreshToken) Delete(db *sqlx.DB) error {
 	tx.MustExec("DELETE FROM refresh_tokens WHERE token=$1", u.Token)
 	return nil
 }
+
+//Get fetches a token object by token
+func Get(db *sqlx.DB, token string) (*RefreshToken, error) {
+	rt := new(RefreshToken)
+	db.Get(&rt, "SELECT * FROM refresh_tokens WHERE token=$1", token
+}
