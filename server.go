@@ -2,13 +2,17 @@ package main
 
 import (
 	"devportal/applications"
-	"devportal/credentials"
-	"devportal/users"
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
-	"../Cuddy/handlers"
+	"github.com/gxb5443/Cuddy/credentials"
+	"github.com/gxb5443/Cuddy/users"
+	"github.com/gxb5443/Cuddy/utils"
+
+	"github.com/gxb5443/Cuddy/handlers"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
@@ -74,26 +78,25 @@ func RunWeb(dbopen, listen string) {
 	r := gin.Default()
 	//r.Use(gzip.Gzip(gzip.BestSpeed))
 	r.Use(DB(dbopen))
-		r.POST("/login", handlers.Login)
-		r.GET("/logout", handlers.Logout)
-		v1 := r.Group("/v1")
-		v1.Use(JWT())
-		{
-	v1.GET("/people", handlers.GetPeople)
-	v1.GET("/companies", handlers.GetCompanies)
-	v1.GET("/memberships", handlers.GetMemberships)
-	v1.GET("/locals", handlers.GetLocals)
-	v1.GET("/company/:cid", handlers.GetCompanyById)
-	v1.GET("/person/:pid", handlers.GetPersonById)
-	v1.POST("/company", handlers.CreateCompany)
-	/*
+	r.POST("/login", handlers.Login)
+	r.GET("/logout", handlers.Logout)
+	v1 := r.Group("/v1")
+	v1.Use(JWT())
+	{
+		v1.GET("/people", handlers.GetPeople)
+		v1.GET("/companies", handlers.GetCompanies)
+		v1.GET("/memberships", handlers.GetMemberships)
+		v1.GET("/locals", handlers.GetLocals)
+		v1.GET("/company/:cid", handlers.GetCompanyById)
+		v1.GET("/person/:pid", handlers.GetPersonById)
+		v1.POST("/company", handlers.CreateCompany)
+		/*
 			v1.POST("/users", handlers.AddUser)
 			v1.PUT("/users", handlers.UpdateUser)
 			v1.DELETE("/users/:id", handlers.DeleteUser)
-	*/
-			v1.POST("/secret", handlers.RegenerateAppSecret)
-		}
-	*/
+		*/
+		v1.POST("/secret", handlers.RegenerateAppSecret)
+	}
 	r.NoRoute(static.Serve("/", static.LocalFile("./public/", true)))
 	log.Println("Running Webserver...")
 	r.Run(listen)
@@ -110,7 +113,6 @@ func DB(dbopen string) gin.HandlerFunc {
 	}
 }
 
-/*
 func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		_, ok := c.Request.Header["Authorization"]
@@ -139,4 +141,3 @@ func JWT() gin.HandlerFunc {
 		c.Next()
 	}
 }
-*/
