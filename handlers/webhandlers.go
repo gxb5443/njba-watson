@@ -3,10 +3,10 @@ package handlers
 import (
 	"log"
 
-	"../companies"
-	"../locals"
-	"../memberships"
-	"../people"
+	"github.com/gxb5443/Cuddy/companies"
+	"github.com/gxb5443/Cuddy/locals"
+	"github.com/gxb5443/Cuddy/memberships"
+	"github.com/gxb5443/Cuddy/people"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"

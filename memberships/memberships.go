@@ -3,7 +3,7 @@ package memberships
 import (
 	"time"
 
-	"../companies"
+	"github.com/gxb5443/Cuddy/companies"
 
 	"github.com/jmoiron/sqlx"
 )
