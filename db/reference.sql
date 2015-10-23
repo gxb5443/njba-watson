@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS group_membership (
   created timestamp without time zone default(now() at time zone 'utc')
 );
 
-CREATE TABLE IF NOT EXISTS  users(
+CREATE TABLE IF NOT EXISTS users(
 	id            uuid PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
 	first_name    text NOT NULL,
 	last_name     text NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS  users(
 );
 CREATE UNIQUE INDEX email_index on users(email);
 
-CREATE TABLE IF NOT EXISTS login_credentials (
+CREATE TABLE IF NOT EXISTS credentials (
 	id                    text PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
 	username              text NOT NULL,
 	password_hash         text NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS login_credentials (
 CREATE UNIQUE INDEX username_index on login_credentials(username);
 
 CREATE TABLE IF NOT EXISTS refresh_tokens (
-	id                    text PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+	token                 text PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
 	user_id               uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 	active                boolean NOT NULL DEFAULT TRUE,
   created               timestamp without time zone default(now() at time zone 'utc')
