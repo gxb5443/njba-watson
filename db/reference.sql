@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS credentials (
 	last_updated          timestamp without time zone default(now() at time zone 'utc'),
   created               timestamp without time zone default(now() at time zone 'utc')
 );
-CREATE UNIQUE INDEX username_index on login_credentials(username);
+CREATE UNIQUE INDEX username_index on credentials(username);
 
 CREATE TABLE IF NOT EXISTS refresh_tokens (
 	token                 text PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
