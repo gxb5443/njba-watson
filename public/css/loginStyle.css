@@ -11,9 +11,6 @@
     left: 0;
     background-size: cover;
     background-position: 50% 50%;
-    /*
-    background-image: url('http://lamplighternj.com/wordpress/wp-content/uploads/2013/08/merchtable_cool.jpg');
-    */
     background-color:rgb(41,102,187)
   }
 /*
@@ -115,12 +112,13 @@
 .profile-img
 {
     /*width: 96px;*/
-    height: 155px;
+    /*height: 155px;*/
+    width: 90%;
     margin: 0 auto 10px;
     display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
+    -moz-border-radius: 10%;
+    -webkit-border-radius: 10%;
+    border-radius: 10%;
 }
 .profile-name {
     font-size: 16px;
