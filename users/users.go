@@ -106,3 +106,23 @@ func IdExists(db *sqlx.DB, id string) (bool, error) {
 	err := db.Select(&exists, "select exists(select id from users where id=$1)", id)
 	return exists, err
 }
+
+func translateNulls(c nullUser) *User {
+	out := new(User)
+	out.Created = c.Created
+	out.Active = c.Active
+	out.Admin = c.Admin
+	if c.Id.Valid {
+		out.Id = c.Id.String
+	}
+	if c.FirstName.Valid {
+		out.FirstName = c.FirstName.String
+	}
+	if c.LastName.Valid {
+		out.LastName = c.LastName.String
+	}
+	if c.Email.Valid {
+		out.Email = c.Email.String
+	}
+	return out
+}
