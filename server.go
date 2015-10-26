@@ -2,9 +2,9 @@ package main
 
 import (
 	"devportal/applications"
-	"errors"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
@@ -95,7 +95,7 @@ func RunWeb(dbopen, listen string) {
 			v1.PUT("/users", handlers.UpdateUser)
 			v1.DELETE("/users/:id", handlers.DeleteUser)
 		*/
-		v1.POST("/secret", handlers.RegenerateAppSecret)
+		//v1.POST("/secret", handlers.RegenerateAppSecret)
 	}
 	r.NoRoute(static.Serve("/", static.LocalFile("./public/", true)))
 	log.Println("Running Webserver...")
@@ -117,23 +117,27 @@ func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		_, ok := c.Request.Header["Authorization"]
 		if !ok {
-			c.Fail(401, errors.New("Unauthorized: No Authorization Header"))
+			//c.Fail(401, errors.New("Unauthorized: No Authorization Header"))
+			c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
 			return
 		}
 		auth := c.Request.Header["Authorization"][0]
 		authorization_header := strings.Split(auth, " ")
 		if authorization_header[0] != "Bearer" {
-			c.Fail(401, errors.New("Unauthorized: No Bearer Token"))
+			//c.Fail(401, errors.New("Unauthorized: No Bearer Token"))
+			c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
 			return
 		}
 		claims, valid, err := utils.ParseJWT(authorization_header[1])
 		if err != nil {
-			c.Fail(401, err)
+			//c.Fail(401, err)
+			c.JSON(http.StatusUnauthorized, gin.H{"status": err})
 			return
 		}
 		if !valid {
 			//			c.Writer.Header().Set("WWW-Authenticate", "Basic realm=\"Authorization Required\"")
-			c.Fail(401, errors.New("Unauthorized: Token not valid"))
+			//c.Fail(401, errors.New("Unauthorized: Token not valid"))
+			c.JSON(http.StatusUnauthorized, gin.H{"status": "Token Not Valid"})
 			return
 		}
 		c.Set("token", claims)
