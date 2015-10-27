@@ -1,6 +1,7 @@
 package tokens
 
 import (
+	"database/sql"
 	"errors"
 	"time"
 
@@ -37,7 +38,7 @@ func (u *RefreshToken) Save(db *sqlx.DB) error {
 	defer tx.Commit()
 	if u.Token == "" {
 		u.Created = time.Now()
-		tx.MustExec("INSERT INTO refresh_tokens(id, user_id) VALUES ($2, $2)", u.Token, u.UserId)
+		tx.MustExec("INSERT INTO refresh_tokens(id, user_id) VALUES ($1, $2)", u.Token, u.UserId)
 		return nil
 	}
 	tx.MustExec("UPDATE refresh_tokens SET user_id=$1, active=$2 WHERE id=$3", u.UserId, u.Active, u.Token)
@@ -63,5 +64,34 @@ func (u *RefreshToken) Delete(db *sqlx.DB) error {
 //Get fetches a token object by token
 func Get(db *sqlx.DB, token string) (*RefreshToken, error) {
 	rt := new(RefreshToken)
-	db.Get(&rt, "SELECT * FROM refresh_tokens WHERE token=$1", token
+	err := db.Get(&rt, "SELECT * FROM refresh_tokens WHERE token=$1 LIMIT 1", token)
+	if err != nil {
+		return nil, err
+	}
+	return rt, nil
+}
+
+//Get fetches a token object by token
+func GetByUserId(db *sqlx.DB, uid string) (*RefreshToken, error) {
+	rt := new(RefreshToken)
+	err := db.Get(rt, "SELECT * FROM refresh_tokens WHERE user_id=$1 LIMIT 1", uid)
+	if err == sql.ErrNoRows {
+		return nil, ErrNoTokensFound
+	}
+	if err != nil {
+		return nil, err
+	}
+	return rt, nil
+}
+
+func Verify(db *sqlx.DB, token string) (string, error) {
+	var uid string
+	err := db.Get(&uid, "SELECT user_id FROM refresh_tokens WHERE token=$1 LIMIT 1", token)
+	if err == sql.ErrNoRows {
+		return "", ErrTokenNotValid
+	}
+	if err != nil {
+		return "", err
+	}
+	return uid, nil
 }

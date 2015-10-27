@@ -4,6 +4,7 @@ package users
 import (
 	"database/sql"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/dchest/uniuri"
@@ -37,6 +38,7 @@ func (u *User) Save(db *sqlx.DB) error {
 	if u.Id == "" {
 		rows, err := db.NamedQuery("INSERT INTO users (first_name, last_name, email, admin) VALUES (:first_name, :last_name, :email, :admin) RETURNING id", u)
 		if err != nil {
+			log.Println(err)
 			return errors.New("Could not update given User")
 		}
 		defer rows.Close()
@@ -95,8 +97,8 @@ func Get(db *sqlx.DB, id string) (*User, error) {
 
 //EmailExists Checks if an email address is available
 func EmailExists(db *sqlx.DB, email string) (bool, error) {
-	var exists = false
-	err := db.Select(&exists, "select exists(select email from users where email=$1)", email)
+	exists := false
+	err := db.Get(&exists, "select exists(select email from users where email=$1)", email)
 	return exists, err
 }
 

@@ -85,7 +85,7 @@ func (u *Credential) HashPassword(password string) error {
 //Login Checks the database to check if user exists and if the supplied plaintext matches the hashed
 //password.  Returns valid user object based on credentials
 func Login(db *sqlx.DB, username string, password string) (*users.User, error) {
-	var user *users.User
+	user := new(users.User)
 	login, err := GetByUsername(db, strings.ToLower(username))
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func Login(db *sqlx.DB, username string, password string) (*users.User, error) {
 	if verr := bcrypt.CompareHashAndPassword([]byte(login.PasswordHash), []byte(password)); verr != nil {
 		return nil, errors.New("Incorrect Password")
 	}
-	err = db.Select(&user, "SELECT * FROM users where id=$1", login.UserId)
+	err = db.Get(user, "SELECT * FROM users where id=$1 LIMIT 1", login.UserId)
 	if err != nil {
 		log.Println(err)
 		return nil, errors.New("Could not access users database")
@@ -116,14 +116,16 @@ func GenerateAccessCode() string {
 //Get Fetches a single Credential from database by Id
 func Get(db *sqlx.DB, id string) (*Credential, error) {
 	credential := new(Credential)
-	err := db.Select(&credential, "select * from login_credentials where id=$1 LIMIT 1", id)
+	err := db.Select(&credential, "select * from credentials where id=$1 LIMIT 1", id)
 	return credential, err
 }
 
 //GetByUsername Fetches a single Credential from database by Id
 func GetByUsername(db *sqlx.DB, username string) (*Credential, error) {
-	var login *Credential
-	err := db.Select(&login, "select * from credentials where username=$1", strings.ToLower(username))
+	//var login *Credential
+	login := new(Credential)
+	//err := db.Select(&login, "select * from credentials where username=$1", strings.ToLower(username))
+	err := db.Get(login, "select * from credentials where username=$1 LIMIT 1", strings.ToLower(username))
 	if err == sql.ErrNoRows {
 		return nil, errors.New("Username not found")
 	}
@@ -137,7 +139,7 @@ func GetByUsername(db *sqlx.DB, username string) (*Credential, error) {
 //GetByResetToken Fetches a single Credential from database by token
 func GetByResetToken(db *sqlx.DB, token string) (*Credential, error) {
 	var login *Credential
-	err := db.Select(&login, "select * from credentials where password_reset_token=$1", token)
+	err := db.Get(&login, "select * from credentials where password_reset_token=$1", token)
 	if err == sql.ErrNoRows {
 		return nil, ErrTokenNotFound
 	}
@@ -151,13 +153,13 @@ func GetByResetToken(db *sqlx.DB, token string) (*Credential, error) {
 //EmailExists Checks if an email address is available
 func UsernameExists(db *sqlx.DB, username string) (bool, error) {
 	var exists = false
-	err := db.Select(&exists, "select exists(select username from login_credentials where username=$1)", strings.ToLower(username))
+	err := db.Get(&exists, "select exists(select username from login_credentials where username=$1)", strings.ToLower(username))
 	return exists, err
 }
 
 //IdExists Checks if a user id exists
 func IdExists(db *sqlx.DB, id string) (bool, error) {
 	var exists = false
-	err := db.Select(&exists, "select exists(select id from users where id=$1)", id)
+	err := db.Get(&exists, "select exists(select id from users where id=$1)", id)
 	return exists, err
 }

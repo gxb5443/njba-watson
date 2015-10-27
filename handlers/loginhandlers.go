@@ -6,14 +6,14 @@ import (
 	"log"
 	"reflect"
 
-	"devportal/tokens"
-	"devportal/users"
+	"github.com/gxb5443/Cuddy/tokens"
+	"github.com/gxb5443/Cuddy/users"
 
-	"devportal/credentials"
-	"devportal/utils"
+	"github.com/gxb5443/Cuddy/credentials"
+	"github.com/gxb5443/Cuddy/utils"
 
-	"github.com/coopernurse/gorp"
 	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
 //Login Handler
@@ -22,14 +22,14 @@ func Login(c *gin.Context) {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
-	dbMap := c.MustGet("dbMap").(*gorp.DbMap)
+	db := c.MustGet("db").(*sqlx.DB)
 	c.Bind(&loginreq)
 	if loginreq.Username == "" || loginreq.Password == "" {
 		c.JSON(401, gin.H{"status": "Username and Password Required"})
 		log.Println("Blank Credentials")
 		return
 	}
-	u, err := credentials.Login(dbMap, loginreq.Username, loginreq.Password)
+	u, err := credentials.Login(db, loginreq.Username, loginreq.Password)
 	if err != nil {
 		//c.JSON(200, gin.H{"status": "Invalid Username/Password"})
 		c.AbortWithError(404, errors.New("Username/Password combination not found"))
@@ -53,17 +53,19 @@ func Login(c *gin.Context) {
 	}
 
 	//Fetch refresh token
-	refresh, rerr := tokens.GetByUserId(dbMap, u.Id)
-	if rerr != nil {
+	refresh, rerr := tokens.GetByUserId(db, u.Id)
+	if rerr != nil && rerr != tokens.ErrNoTokensFound {
 		c.AbortWithError(500, errors.New("Error getting Refresh Token"))
 		log.Println(rerr)
 		return
 	}
-	if len(refresh) == 0 {
+	//if len(refresh) == 0 {
+	if refresh == nil {
 		c.JSON(200, gin.H{"token": token, "refresh": ""})
 		return
 	}
-	c.JSON(200, gin.H{"token": token, "refresh": refresh[0].Id})
+	//c.JSON(200, gin.H{"token": token, "refresh": refresh[0].Id})
+	c.JSON(200, gin.H{"token": token, "refresh": refresh.Token})
 }
 
 func Logout(c *gin.Context) {
@@ -72,12 +74,12 @@ func Logout(c *gin.Context) {
 }
 
 func RefreshToken(c *gin.Context) {
-	dbMap := c.MustGet("dbMap").(*gorp.DbMap)
+	db := c.MustGet("db").(*sqlx.DB)
 	var refresh struct {
 		Token string `json:"token"`
 	}
 	c.Bind(&refresh)
-	uid, err := tokens.Verify(dbMap, refresh.Token)
+	uid, err := tokens.Verify(db, refresh.Token)
 	if err == tokens.ErrTokenNotValid {
 		c.AbortWithError(404, errors.New("Invalid Token"))
 		log.Println(err)
@@ -90,7 +92,7 @@ func RefreshToken(c *gin.Context) {
 	}
 	var user users.User
 	log.Println(reflect.TypeOf(user))
-	u, uerr := users.Get(dbMap, uid)
+	u, uerr := users.Get(db, uid)
 	if uerr != nil {
 		log.Println(uerr)
 		c.AbortWithError(500, errors.New("Could not get user"))

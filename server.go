@@ -1,7 +1,6 @@
 package main
 
 import (
-	"devportal/applications"
 	"fmt"
 	"log"
 	"net/http"
@@ -23,12 +22,8 @@ import (
 var u = users.User{
 	FirstName: "Minnie",
 	LastName:  "Strator",
-	Email:     "admin@namely.com",
+	Email:     "admin",
 	Admin:     true,
-}
-
-var sa = applications.Application{
-	Name: "Default 1",
 }
 
 var login = credentials.Credential{
@@ -69,8 +64,40 @@ func main() {
 		DBOPEN += fmt.Sprint(" host=" + DBHOST)
 	}
 
-	//initUser(DBOPEN)
+	initUser(DBOPEN)
 	RunWeb(DBOPEN, LISTEN_WEB)
+}
+
+func initUser(dbopen string) {
+	log.Println("Connecting User")
+	db, err := sqlx.Open("postgres", dbopen)
+	if err != nil {
+		panic(err)
+		return
+	}
+	fmt.Println("User Exists: ", u.Email)
+	if exists, _ := users.EmailExists(db, u.Email); exists {
+		log.Println("Default User already exists")
+		return
+	}
+	serr := u.Save(db)
+	if serr != nil {
+		panic(serr)
+		return
+	}
+	login.Active = true
+	login.Username = u.Email
+	login.UserId = u.Id
+	perr := login.HashPassword(login.PasswordHash)
+	if perr != nil {
+		panic(serr)
+		return
+	}
+	serr = login.Save(db)
+	if serr != nil {
+		panic(serr)
+		return
+	}
 }
 
 func RunWeb(dbopen, listen string) {
