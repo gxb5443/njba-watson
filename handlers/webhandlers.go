@@ -7,10 +7,21 @@ import (
 	"github.com/gxb5443/Cuddy/locals"
 	"github.com/gxb5443/Cuddy/memberships"
 	"github.com/gxb5443/Cuddy/people"
+	"github.com/gxb5443/Cuddy/users"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 )
+
+func GetUsers(c *gin.Context) {
+	db := c.MustGet("db").(*sqlx.DB)
+	users, err := users.GetAll(db)
+	if err != nil {
+		log.Printf("GetUsers: %s", err)
+		return
+	}
+	c.JSON(200, users)
+}
 
 func GetPeople(c *gin.Context) {
 	db := c.MustGet("db").(*sqlx.DB)

@@ -117,6 +117,7 @@ func RunWeb(dbopen, listen string) {
 		v1.GET("/company/:cid", handlers.GetCompanyById)
 		v1.GET("/person/:pid", handlers.GetPersonById)
 		v1.POST("/company", handlers.CreateCompany)
+		v1.GET("/users", handlers.GetUsers)
 		/*
 			v1.POST("/users", handlers.AddUser)
 			v1.PUT("/users", handlers.UpdateUser)

@@ -105,7 +105,7 @@ func EmailExists(db *sqlx.DB, email string) (bool, error) {
 //IdExists Checks if a user id exists
 func IdExists(db *sqlx.DB, id string) (bool, error) {
 	var exists = false
-	err := db.Select(&exists, "select exists(select id from users where id=$1)", id)
+	err := db.Get(&exists, "select exists(select id from users where id=$1)", id)
 	return exists, err
 }
 
