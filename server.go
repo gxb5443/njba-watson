@@ -71,6 +71,7 @@ func main() {
 func initUser(dbopen string) {
 	log.Println("Connecting User")
 	db, err := sqlx.Open("postgres", dbopen)
+	defer db.Close()
 	if err != nil {
 		panic(err)
 		return
