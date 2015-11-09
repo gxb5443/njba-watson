@@ -39,10 +39,10 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
             templateUrl: "/js/admin/_users.html",
             controller: "UserCtrl"
           })
-          .state('main.admin.apps', {
-            url: "/apps",
-            templateUrl: "/js/admin/_apps.html",
-            controller: "AppCtrl"
+          .state('main.admin.people', {
+            url: "/people",
+            templateUrl: "/js/admin/_people.html",
+            controller: "PeopleCtrl"
           })
           .state('main.dev', {
             abstract: true,
@@ -228,28 +228,24 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
           }
         }
       })
-      .factory('AppFactory', function ContentFactory($http){
+      .factory('PeopleFactory', function ContentFactory($http){
         return {
-          getApps: function(){
-            return $http.get('/v1/apps');
+          getPeople: function(){
+            return $http.get('/v1/people');
           },
-          getApp: function(app_id){
-            return $http.get('/v1/apps/' + app_id);
+          getPerson: function(people_id){
+            return $http.get('/v1/person/' + app_id);
           },
-          getUserApps: function(user_id){
+          /*
+          getUserApps: function(people_id){
             return $http.get('/v1/users/' + user_id + '/apps');
           },
-          addApp: function(newApp){
-            return $http.post('/v1/apps', newApp);
-          },
-          updateApp: function(update){
-            return $http.post('/v1/apps', update);
+          */
+          addPerson: function(newPeople){
+            return $http.post('/v1/people', newPeople);
           },
           deleteApp: function(app_id){
             return $http.delete('/v1/apps/'+ app_id);
-          },
-          getNewAppSecret: function(app) {
-            return $http.post('/v1/secret', app);
           }
         }
       })
@@ -437,28 +433,28 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
           });
         }
       }])
-      .controller('AppCtrl', ['$scope', 'ngTableParams', 'AppFactory', '$alert', 'AuthService', function($scope, ngTableParams, AppFactory, $alert, AuthService){
+      .controller('PeopleCtrl', ['$scope', 'ngTableParams', 'PeopleFactory', '$alert', 'AuthService', function($scope, ngTableParams, PeopleFactory, $alert, AuthService){
         var init = function(){
           if(!AuthService.isLoggedIn()){
             $state.go('login');
           }
         }
-        $scope.apps= [];
+        $scope.people= [];
         $scope.editId = -1;
         $scope.clearForms=function(){
-          $scope.new_app={};
-          $('#new_app').modal('hide');
+          $scope.new_people={};
+          $('#new_people').modal('hide');
         }
-        AppFactory.getApps().success(function(data, status){
-          if(data.status!="No Apps found"){
-            $scope.apps=data
-            $scope.apptableParams.total($scope.apps.length);
-            $scope.apptableParams.reload();
+        PeopleFactory.getPeople().success(function(data, status){
+          if(data.status!="No People found"){
+            $scope.people=data
+            $scope.peopletableParams.total($scope.people.length);
+            $scope.peopletableParams.reload();
           }else{
-            $scope.apps=[];
+            $scope.people=[];
           }
         })
-        $scope.apptableParams= new ngTableParams({
+        $scope.peopletableParams= new ngTableParams({
             page:1,
             count: 10
           },
@@ -475,12 +471,12 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
           $scope.editId = id;
         }
 
-        $scope.closeAppChanges= function(){
+        $scope.closePeopleChanges= function(){
           $scope.editId = -1;
         }
 
-        $scope.deleteApp = function(entity){
-          AppFactory.deleteApp(entity.client_id).success(function(data, status){
+        $scope.deletePerson = function(entity){
+          PeopleFactory.deleteApp(entity.client_id).success(function(data, status){
             $alert({title:"Success", placement: "top", content:"App Deleted", show: true, type:"success", duration: "3", container: 'body', animation: 'am-slide-top'});
             $scope.closeAppChanges();
             i = $scope.apps.indexOf(entity);
@@ -492,21 +488,21 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
 
         $scope.saveAppChanges = function(entity){
           //TODO: Don't update table entity on failure
-          AppFactory.updateApp(entity).success(function(data, status){
+          PeopleFactory.updateApp(entity).success(function(data, status){
             $alert({title:"Success", placement: "top", content:"App updated successfully", show: true, type:"success", duration: "3", container: 'body', animation: 'am-slide-top'});
             $scope.closeAppChanges()
           });
         }
         init();
       }])
-      .controller('DevAppCtrl', ['$scope', 'ngTableParams', 'AppFactory', '$alert', 'AuthService', function($scope, ngTableParams, AppFactory, $alert, AuthService){
+      .controller('DevAppCtrl', ['$scope', 'ngTableParams', 'PeopleFactory', '$alert', 'AuthService', function($scope, ngTableParams, PeopleFactory, $alert, AuthService){
         $scope.apps= [];
         $scope.editId = -1;
         $scope.clearForms=function(){
           $scope.new_app={};
           $('#new_app').modal('hide');
         }
-        AppFactory.getUserApps(AuthService.user.id).success(function(data, status){
+        PeopleFactory.getUserApps(AuthService.user.id).success(function(data, status){
           if(status==200){
             $scope.apps=data
             $scope.apptableParams.total($scope.apps.length);
@@ -537,7 +533,7 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
         }
 
         $scope.deleteApp = function(entity){
-          AppFactory.deleteApp(entity.client_id).success(function(data, status){
+          PeopleFactory.deleteApp(entity.client_id).success(function(data, status){
             $alert({title:"Success", placement: "top", content:"App Deleted", show: true, type:"success", duration: "3", container: 'body', animation: 'am-slide-top'});
             $scope.closeAppChanges();
             i = $scope.apps.indexOf(entity);
@@ -549,7 +545,7 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
 
         $scope.saveAppChanges = function(entity){
           //TODO: Don't update table entity on failure
-          AppFactory.updateApp(entity).success(function(data, status){
+          PeopleFactory.updateApp(entity).success(function(data, status){
             $alert({title:"Success", placement: "top", content:"App updated successfully", show: true, type:"success", duration: "3", container: 'body', animation: 'am-slide-top'});
             $scope.closeAppChanges()
           });
@@ -557,7 +553,7 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
 
         $scope.processApp = function(){
           $scope.new_app.user_id = AuthService.user.id;
-          AppFactory.addApp($scope.new_app).success(function(data,status){
+          PeopleFactory.addApp($scope.new_app).success(function(data,status){
             $scope.apps.push(data);
             $scope.apptableParams.total($scope.apps.length);
             $scope.apptableParams.reload();
@@ -566,8 +562,8 @@ angular.module("Namely_Dev_Portal", ['mgcrea.ngStrap', 'ngAnimate', 'ngTable', '
         }
 
         $scope.refreshAppSecret = function(entity, index){
-          //Call AppFactory APi to get new thing
-          AppFactory.getNewAppSecret(entity)
+          //Call PeopleFactory APi to get new thing
+          PeopleFactory.getNewAppSecret(entity)
           .success(function(response){
             $scope.apps[index].secret = response.secret
           })

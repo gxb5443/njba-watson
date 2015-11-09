@@ -78,16 +78,6 @@
               <input type="text" class="form-control" name="zip" ng-model="new_user.zip">
             </ng-form>
           </div>
-          <div class="form-group" ng-class="{ 'has-error' : useradmin.admin.$invalid }">
-            <ng-form name="useradmin">
-              <div class="checkbox checkbox-primary">
-                <label for="admin">
-                  <input type="checkbox" class="" id="admin" ng-model="new_user.admin" />
-                  Admin
-                </label>
-              </div>
-            </ng-form>
-          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -96,10 +86,14 @@
     </div>
   </div>
 </div><!--/New Users Modal -->
-</div>
 <div id="people_manager" class="container-fluid">
   <div class="row">
-    <h2>App Management</h2>
+    <h2>People</h2>
+    <span class="btn-group center-block pull-left">
+      <button class="button btn-lg" data-toggle="modal" data-target="#new_people">
+        <span class="glyphicon glyphicon-plus"></span> Add Person
+      </button>
+    </span>
   </div>
   <div class="row">
     <table ng-table="peopletableParams" class="table">
@@ -121,7 +115,7 @@
           </td>
         </tr>
         <tr ng-show="editId===entry.id" ng-if="editId===entry.id">
-          <td style="text-align:center;" colspan="6" ng-include src="'/js/admin/editAppRow.html'"></td>
+          <td style="text-align:center;" colspan="6" ng-include src="'/js/admin/editPeopleRow.html'"></td>
         </tr>
       </tbody>
     </table>
